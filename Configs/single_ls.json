@@ -1,0 +1,71 @@
+{
+    "qbp": {
+        "dataDir": "${QBPY_BASE_DIR}/Data/multi_ls.h5",
+        "dataset_type": "h5",
+        "target_size": [
+            512,
+            512
+        ],
+        "alignTWSize": 4,
+        "alignTWNum": 5,
+        "mergeTWSize": 4,
+        "mergeTWNum": 5,
+        "warpTWSize": 1,
+        "srTWSize": 40,
+        "srTWNum": 250,
+        "refFrame": 12,
+        "numLevels": 3,
+        "patchSizes": [
+            16,
+            16,
+            8
+        ],
+        "upsampleRatios": [
+            1,
+            2,
+            4
+        ],
+        "searchRadii": [
+            1,
+            4,
+            16
+        ],
+        "numLKIters": 3,
+        "imgScale": 1,
+        "imgAutoScale": false,
+        "wienerC": 8,
+        "flowLambda": 0.01,
+        "srScale": 2,
+        "combineRadius": 1,
+        "k_detail": 0.3,
+        "k_denoise": 1,
+        "D_th": 0.005,
+        "D_tr": 0.5,
+        "k_stretch": 1,
+        "k_shrink": 1,
+        "wienerSRC": 8,
+        "bm3dSigma": 0,
+        "hpThresh": 50,
+        "correctDCR": false,
+        "removeHP": false,
+        "fastMode": true,
+        "dataType": "double",
+        "doRefine": false,
+        "doSR": false,
+        "doRefineSR": false,
+        "computePSNR": false,
+        "debug": true,
+        "saveImages": true,
+        "resultDir": "${QBPY_BASE_DIR}/Results/single_ls.h5",
+        "PS": false,
+        "num_ls": 1,
+        "image_path": "",
+        "use_gt_flow": false,
+        "calculate_flow": false,
+        "debug_flow": false,
+        "perFrameGt": false,
+        "normalize_output": true,
+        "mask_threshold": 0.5,
+        "output_intensity": true
+    }
+}

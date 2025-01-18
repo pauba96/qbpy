@@ -88,7 +88,7 @@ for i = 1:N
                 xlb = 1+(k-1)*patchSizes(l); % x lower bound
                 bestScore = Inf;
                 for m = 1:size(initMatch, 3)
-                    [currMatch, currScore] = blockMatch2d(P0{l}, P1{l}, [ylb xlb], patchSizes(l), searchRadii(l), initMatch(j,k,m,:));
+                    [currMatch, currScore] = blockMatch2d_multichannel(P0{l}, P1{l}, [ylb xlb], patchSizes(l), searchRadii(l), initMatch(j,k,m,:));
                     if currScore < bestScore
                         bestMatch(j,k,:) = currMatch;
                         bestScore = currScore;
@@ -208,5 +208,4 @@ for i = 1:N
         fprintf('%g\n', toc(timeBlockStart));
     end
 end
-
 end

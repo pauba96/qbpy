@@ -7,9 +7,9 @@ if nargin < 3
     isSR = false;
 end
 if isSR
-    T = param.srTWNum * param.srTWSize;
+    T = param.srTWNum * param.srTWSize * param.n_binary;
 else
-    T = param.mergeTWNum * param.mergeTWSize;
+    T = param.mergeTWNum * param.mergeTWSize * param.n_binary;
 end
 
 % Remove dark counts

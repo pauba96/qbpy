@@ -39,6 +39,6 @@ for i = 1:twNum
         S = S + imbs{frameIdx(i,j)};
     end
 end
-ima = mleImage(S, twNum*twSize, imgScale);
+ima = mleImage(S, twNum*twSize*param.n_binary, imgScale);
 
 end

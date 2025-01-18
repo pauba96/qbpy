@@ -38,7 +38,13 @@ function [It, Ix, Iy] = partial_deriv_patch(img1, img2, uv_prev, interpolation_m
 % THIS SOFTWARE.        
 
 if nargin == 3
-    interpolation_method = 'cubic';
+    use_cubic = getenv('MATLAB_USE_CUBIC_INTERP');
+    if isempty(use_cubic) || strcmpi(use_cubic, 'false') || str2double(use_cubic) == 0
+        interpolation_method = 'bi-linear';
+    else
+        interpolation_method = 'cubic';
+    end
+
 end
 
 if nargin == 5

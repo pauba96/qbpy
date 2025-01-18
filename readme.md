@@ -6,7 +6,8 @@
 
 ## Notes
 - You can look at the changes made to qbp by looking at this commit: ...
-- Namely, we adjusted the interp2d function to perform linear interpolation by default, as there is no exact python equivalent to the cubic interpolation used in Matlab
+- Namely, we adjusted the partial_deriv_patch.m function to perform linear interpolation by default, as there is no exact python equivalent to the cubic interpolation used in Matlab. If you want to change this behavior, set the environment variable MATLAB_USE_CUBIC_INTERP to True
+- We further divided the patchALign function into subfunctions to make testing easier
 
 ## Getting Started
 1. set environment variable: QBPY_BASE_DIR to the directory where the repository is cloned to.
@@ -16,6 +17,7 @@
 `cd "matlabroot\extern\engines\python"´
 `python -m pip install matlabengine`
 note: needs admin privileges
+5. Optional: follow the instructions on how to initialize qbp in qbp_matlab/README.md
 
 
 ## For developers

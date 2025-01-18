@@ -22,9 +22,8 @@ if nargin > 2
         scale = mean(scale);
         Lambda = Lambda * scale;
     else
-        assert(size(Lambda, 3) == 3);
         if numel(scale) == 3
-            Lambda = Lambda .* reshape(scale,1,1,3);
+            Lambda = Lambda .* reshape(scale,1,1,size(Lambda, 3));
         else
             Lambda = Lambda * scale;
         end

@@ -1,4 +1,4 @@
-function [S] = patchMergeBinary(imbs, flows, param)
+function [S] = patchMergeBinary(imbs, flows, param, phase_ids)
 %PATCHMERGEBINARY Merging binary sequence via patchMerge
 %V2: 
 %  210818: Implement warpTWSize: do not warp every binary frame
@@ -103,67 +103,94 @@ if param.debug
     ybv = repelem((0:H/patchSize-1)*2*patchSize,1,patchSize)+repmat(1:patchSize,1,H/patchSize);
     xbv = repelem((0:W/patchSize-1)*2*patchSize,1,patchSize)+repmat(1:patchSize,1,W/patchSize);
 end
-blockPatches = zeros(hs*patchSize, ws*patchSize, C, mergeTWNum, param.dataType);
-for c = 1:C
-    fprintf('Pre-warping Channel %d...\n', c);
+
+if nargin < 3 || isempty(phase_ids) || all(phase_ids == false)
+    blockPatches = zeros(hs*patchSize, ws*patchSize, C, mergeTWNum, param.dataType);
+    for c = 1:C
+        fprintf('Pre-warping Channel %d...\n', c);
+        for i = 1:mergeTWNum
+            Sb = zeros(hs*patchSize, ws*patchSize, param.dataType);
+            countMap = zeros(size(Sb), param.dataType);
+            if param.debug
+                fprintf('.');
+            end
+            if isfield(param, 'warpTWSize') && param.warpTWSize > 1
+                warpTWSize = param.warpTWSize;
+                assert(~mod(mergeTWSize, warpTWSize));
+                warpTWNum = mergeTWSize / warpTWSize;
+                for j = 1:warpTWNum
+                    curFlow = interpFlow(i, (j-1)*warpTWSize+round((warpTWSize+1)/2));
+                    flowwarp = repelem(curFlow, patchSize, patchSize, 1);
+                    curFrame = zeros(H, W, param.dataType);
+                    for k = 1:warpTWSize
+                        curFrame = curFrame + imbs{frameIdx(i, (j-1)*warpTWSize+k)}(:,:,c);
+                    end
+                    imbwarped = interp2(curFrame, X+flowwarp(:,:,1), Y+flowwarp(:,:,2), 'linear');
+                    countMap = countMap + isfinite(imbwarped) * warpTWSize;
+                    imbwarped(~isfinite(imbwarped)) = 0;
+                    Sb = Sb + imbwarped;
+                end
+            else
+                for j = 1:mergeTWSize
+                    curFlow = interpFlow(i, j);
+                    flowwarp = repelem(curFlow, patchSize, patchSize, 1);
+                    curFrame = double(imbs{frameIdx(i,j)}(:,:,c));
+                    if param.fastMode
+                        imbwarped = interp2(curFrame, X+flowwarp(:,:,1), Y+flowwarp(:,:,2), 'nearest');
+                    else
+                        imbwarped = interp2(curFrame, X+flowwarp(:,:,1), Y+flowwarp(:,:,2), 'linear');
+                    end
+                    countMap = countMap + isfinite(imbwarped);
+                    imbwarped(~isfinite(imbwarped)) = 0;
+                    Sb = Sb + imbwarped;
+                end
+            end
+            countMap(countMap == 0) = 1;
+            Sb = Sb ./ countMap;
+
+            blockPatches(:,:,c,i) = Sb;
+            if param.debug
+    %             bm = Sb(ybv,xbv);
+    %             bmr = mleImage(bm*mergeTWSize, countMap(ybv,xbv), imgScale);
+    %             imwrite(bmr, fullfile(param.resultDir, sprintf('blockMergeRecons%d-c%d.png', i, c)));
+            end
+        end
+    end
+else % phase_ids exist -> match using ids for instance to do Photometric Stereo
+    blockPatches = zeros(hs*patchSize, ws*patchSize, param.num_ls, mergeTWNum,  param.dataType);
     for i = 1:mergeTWNum
-        Sb = zeros(hs*patchSize, ws*patchSize, param.dataType);
+        Sb = zeros(hs*patchSize, ws*patchSize, param.num_ls, param.dataType);
         countMap = zeros(size(Sb), param.dataType);
         if param.debug
             fprintf('.');
         end
-        if isfield(param, 'warpTWSize') && param.warpTWSize > 1
-            warpTWSize = param.warpTWSize;
-            assert(~mod(mergeTWSize, warpTWSize));
-            warpTWNum = mergeTWSize / warpTWSize;
-            for j = 1:warpTWNum
-                curFlow = interpFlow(i, (j-1)*warpTWSize+round((warpTWSize+1)/2));
-                flowwarp = repelem(curFlow, patchSize, patchSize, 1);
-                curFrame = zeros(H, W, param.dataType);
-                for k = 1:warpTWSize
-                    curFrame = curFrame + imbs{frameIdx(i, (j-1)*warpTWSize+k)}(:,:,c);
-                end
+
+        for j = 1:mergeTWSize
+            phase = phase_ids(frameIdx(i, j));
+            curFlow = interpFlow(i, j);
+            flowwarp = repelem(curFlow, patchSize, patchSize, 1);
+            curFrame = double(imbs{frameIdx(i,j)});
+            if param.fastMode
+                imbwarped = interp2(curFrame, X+flowwarp(:,:,1), Y+flowwarp(:,:,2), 'nearest');
+            else
                 imbwarped = interp2(curFrame, X+flowwarp(:,:,1), Y+flowwarp(:,:,2), 'linear');
-                countMap = countMap + isfinite(imbwarped) * warpTWSize;
-                imbwarped(~isfinite(imbwarped)) = 0;
-                Sb = Sb + imbwarped;
             end
-        else
-            for j = 1:mergeTWSize
-                curFlow = interpFlow(i, j);
-                flowwarp = repelem(curFlow, patchSize, patchSize, 1);
-                curFrame = double(imbs{frameIdx(i,j)}(:,:,c));
-                if param.fastMode
-                    imbwarped = interp2(curFrame, X+flowwarp(:,:,1), Y+flowwarp(:,:,2), 'nearest');
-                else
-                    imbwarped = interp2(curFrame, X+flowwarp(:,:,1), Y+flowwarp(:,:,2), 'linear');
-                end
-                countMap = countMap + isfinite(imbwarped);
-                imbwarped(~isfinite(imbwarped)) = 0;
-                Sb = Sb + imbwarped;
-            end
+            countMap(:,:,phase+1) = countMap(:,:,phase+1) + isfinite(imbwarped);
+            imbwarped(~isfinite(imbwarped)) = 0;
+            Sb(:,:,phase+1) = Sb(:,:,phase+1) + imbwarped;
         end
         countMap(countMap == 0) = 1;
-        Sb = Sb ./ countMap;
-        
-        blockPatches(:,:,c,i) = Sb;
-        if param.debug
-%             bm = Sb(ybv,xbv);
-%             bmr = mleImage(bm*mergeTWSize, countMap(ybv,xbv), imgScale);
-%             imwrite(bmr, fullfile(param.resultDir, sprintf('blockMergeRecons%d-c%d.png', i, c)));
-        end
-    end
-    if param.debug
-        fprintf('\n');
+        Sb = Sb ./ countMap; % why?
+
+        blockPatches(:,:,:,i) = Sb;
     end
 end
-toc(ts);
 
 %% Then Wiener Merge
 param.H = H; param.W = W;
 S = patchMerge(blockPatches, param);
 S = S * mergeTWNum * mergeTWSize;
+
 fprintf('Merging done. ');
-toc(ts0);
 end
 

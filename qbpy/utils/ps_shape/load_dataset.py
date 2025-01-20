@@ -41,7 +41,7 @@ def load_dataset(param):
             if PS:
                 phase_ids = f['/meta_phase_ids'][:]  # Read the phase_ids dataset
             else:
-                phase_ids = np.zeros(len(imbs))
+                phase_ids = False # np.zeros(len(imbs))
 
         # Save relevant HDF5 information to the dictionary
         h5_info['file_path'] = h5_file_path

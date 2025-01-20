@@ -1,5 +1,8 @@
 ## What is this and why?
-...
+Work in progress! This is a initial Python implementation of the Quanta Burst Photography (QBP) algorithm, which can be found here: 
+Limitations:
+- Not yet tested: Regular multichannel images (RGB)
+- No support for superresolution and some other QBP-Features
 
 ## Goal: Full implementation and Torch integration
 ...

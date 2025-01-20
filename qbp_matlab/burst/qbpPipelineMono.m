@@ -1,6 +1,16 @@
-function [result] = qbpPipelineMono(imbs, param, dcr, imgt)
+function [result] = qbpPipelineMono(imbs, param, dcr, imgt, phase_ids)
 %QBPPIPELINEMONO Entire QBP pipeline for monochrome binary images
 % based on srcMono_0212
+
+% check if phase_ids are given
+if nargin < 5 || isempty(phase_ids)
+    phase_ids = false
+end
+
+
+if ~isfield(param, 'normalize_output') || isempty(param.normalize_output)
+    param.normalize_output = false; % Set to false by default
+end
 
 result = struct();
 resultDir = param.resultDir;
@@ -18,6 +28,7 @@ imas = naiveRecons(imbs(refBlock*param.mergeTWSize+1:(refBlock+1)*param.mergeTWS
 if param.removeHP
     tic;
     for i = 1:numel(imbs)
+        fprintf(string(i)+"/"+string(numel(imbs))+ " ");
         imbs{i} = removeHotPixels(imbs{i}, dcr, param.hpThresh); 
     end
     toc;
@@ -41,7 +52,7 @@ result.flowrs = flowrs;
 fprintf('Finished alignment.\n');
 
 %% Merge
-Sr = patchMergeBinary(imbs, flows, param);
+Sr = patchMergeBinary(imbs, flows, param, phase_ids);
 paramNoBM3D = param;
 paramNoBM3D.bm3dSigma = 0;
 imr = postMerge(Sr, paramNoBM3D, false);
@@ -66,14 +77,33 @@ end
 
 
 if param.saveImages
-    imwrite(lin2rgb(imr), fullfile(resultDir, 'patchMerge_g22.png'));
-    imwrite(lin2rgb(ima), fullfile(resultDir, 'averageRecons_g22.png'));
+    % Check if imr is single-channel or multi-channel and handle appropriately
+    if size(imr, 3) == 1
+        % If imr is single-channel (grayscale), convert to RGB by replicating the channel
+        imr_rgb = repmat(lin2rgb(imr), [1, 1, 3]);
+    else
+        % If imr is multi-channel, use the first three channels
+        imr_rgb = lin2rgb(imr(:, :, 1:3));
+    end
+    % Write the image
+    imwrite(imr_rgb, fullfile(resultDir, 'patchMerge_g22.png'));
+
+    % Check if ima is single-channel or multi-channel and handle appropriately
+    if size(ima, 3) == 1
+        % If ima is single-channel, convert to RGB by replicating the channel
+        ima_rgb = repmat(lin2rgb(ima), [1, 1, 3]);
+    else
+        % If ima is multi-channel, use the first three channels
+        ima_rgb = lin2rgb(ima(:, :, 1:3));
+    end
+    % Write the image
+    imwrite(ima_rgb, fullfile(resultDir, 'averageRecons_g22.png'));
+end
 %     imwrite(lin2rgb(imas), fullfile(resultDir, 'averageReconsShort_g22.png'));
 %     if ~isfield(param, 'removeHP') || param.removeHP
 %         imwrite(lin2rgb(imaf), fullfile(resultDir, 'averageReconsHPFixed_g22.png'));
 %         imwrite(lin2rgb(imasf), fullfile(resultDir, 'averageReconsShortHPFixed_g22.png'));
 %     end
-end
 if param.debug
     save(fullfile(resultDir, 'patchMerge.mat'), 'param', 'Sr', 'imr', 'imrbm');
     save(fullfile(resultDir, 'naiveRecons.mat'), 'ima', 'imaf', 'imas', 'imasf');

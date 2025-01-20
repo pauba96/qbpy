@@ -10,7 +10,7 @@ from qbpy.burst.patchMergeBinary import patch_merge_binary
 from qbpy.burst.postMerge import post_merge
 
 
-def run_qbp_stepwise(json_path, eng=None):
+def run_qbp_stepwise_verbose(json_path, eng=None):
 	os.environ["ENABLE_TEST_LOGGER"] = "1"  # Enable logging
 	param = param_from_json(json_path)
 	# Check if the parameters are equivalent
@@ -24,7 +24,8 @@ def run_qbp_stepwise(json_path, eng=None):
 		# warning that dcr is not implemented, yet
 		print("Warning: dcr is not implemented, yet")
 		assert np.allclose(dropped_mat, dropped_py)
-		assert np.allclose(np.array(phase_ids_mat)[:,0], phase_ids_py)
+		if np.any(phase_ids_py):
+			assert np.allclose(np.array(phase_ids_mat)[:,0], phase_ids_py)
 
 	# Naive reconstruction
 	ima_py, S = naive_recons(imbs_py, param)
@@ -102,7 +103,7 @@ def run_qbp_stepwise(json_path, eng=None):
 		paramNoBM3D = param_mat.copy()
 		paramNoBM3D["bm3dSigma"] = 0
 		imr_mat = eng.postMerge(Sr.copy(), paramNoBM3D, False)
-		np.testing.assert_allclose(imr, imr_mat, equal_nan=True, atol=0.001)
+		np.testing.assert_allclose(imr.squeeze(), imr_mat, equal_nan=True, atol=0.001)
 
 	result = {
 		"ima": ima_py,

@@ -1,13 +1,6 @@
 import numpy as np
-import os
-import unittest
-import pickle
 from qbpy.burst.patchAlign_subfuns.dc_findBestMatches import find_best_matches
-from qbpy.utils.ps_shape.param_from_json import param_from_json
-from qbpy.burst.buildAgrePyramid import build_aggre_pyramid
 from qbpy.burst.patchAlign_subfuns.dc_upsampleMatches import upsample_matches
-from qbpy.burst.patchAlign_subfuns.dc_utils import save_to_mat
-from testing.io import get_eng
 from testing.TestFunctions import test_logger
 
 
@@ -35,6 +28,5 @@ def coarse_to_fine_match(P0, P1, patchSizes, searchRadii, upsampleRatios, param)
             initMatch, bestMatch = upsample_matches(bestMatch_in, P1[level - 1],
                                                     patchSizes[level - 1], patchSizes[level],
                                                     upsampleRatios[level], dataType)
-
 
     return bestMatch

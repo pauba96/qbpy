@@ -4,7 +4,7 @@ function [result] = qbpPipelineMono(imbs, param, dcr, imgt, phase_ids)
 
 % check if phase_ids are given
 if nargin < 5 || isempty(phase_ids)
-    phase_ids = false
+    phase_ids = false;
 end
 
 

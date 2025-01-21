@@ -69,17 +69,17 @@ def run_qbp_stepwise_verbose(json_path, eng=None):
 		flows, flowrs = patch_align_binary(imbs_py, param)
 		if eng is not None:
 			flows_mat, flowrs_mat = eng.patchAlignBinary(imbs_mat, param_mat, nargout=2)
-			assert np.allclose(flows, flows_mat)
+			np.testing.assert_allclose(flows, flows_mat, equal_nan=True, atol=1e-10)
 			assert np.allclose(flowrs, flowrs_mat)
 	except Exception as e:
 		print(f"Error in run_qbp: {e}")
 		# save to mat
 		if eng is not None:
 			save_to_mat(eng,
-						os.getenv("QBPY_BASE_DIR")+r"testing/test_data_inputs/patch_align_binary_inputs.mat",
-						imbs=imbs_py, param=param)
+						os.getenv("QBPY_BASE_DIR")+r"/testing/test_data_inputs/patch_align_binary_inputs.mat",
+						imbs=imbs_mat, param=param_mat)
 		with open(
-				os.getenv("QBPY_BASE_DIR")+r"testing/test_data_inputs/patch_align_binary_inputs.pkl",
+				os.getenv("QBPY_BASE_DIR")+r"/testing/test_data_inputs/patch_align_binary_inputs.pkl",
 				'wb') as f:
 			pickle.dump(
 				{'imbs': imbs_py, 'param': param, 'param_mat': param_mat}, f)

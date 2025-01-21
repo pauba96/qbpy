@@ -4,7 +4,21 @@ function imbs = ss2_1b_range_read(imgDir, startFrame, endFrame)
 % imgDir: "output_images" folder that contains info.json and part_*.mat
 % startFrame, endFrame: 1-based frame idx, inclusive
 
-seqInfo = loadjson(fullfile(imgDir, 'info.json'));
+
+% Use the loaded data
+%seqInfo = loadjson(fullfile(imgDir, 'info.json'));
+jsonFilePath = fullfile(imgDir, 'info.json');
+
+% Open the file and read its content as text
+fid = fopen(jsonFilePath, 'r');
+if fid == -1
+    error('Could not open the file: %s', jsonFilePath);
+end
+rawData = fread(fid, inf, 'uint8=>char')';
+fclose(fid);
+
+% Decode the JSON content
+seqInfo = jsondecode(string(rawData));
 startPart = ceil(startFrame / seqInfo.no_frames);
 startOffset = startFrame - (startPart-1) * seqInfo.no_frames;
 endPart = ceil(endFrame / seqInfo.no_frames);

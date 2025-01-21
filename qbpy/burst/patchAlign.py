@@ -5,7 +5,7 @@ from qbpy.burst.patchAlign_subfuns.dc_coarseToFineMatch import coarse_to_fine_ma
 from qbpy.burst.patchAlign_subfuns.dc_refineFinestLevel import refine_finest_level
 from qbpy.burst.patchAlign_subfuns.dc_debugVisualization import debug_visualization
 from testing.TestFunctions import test_logger
-
+from tqdm import tqdm
 @test_logger
 def patch_align(ims, param, imv=None):
     """
@@ -37,8 +37,7 @@ def patch_align(ims, param, imv=None):
     flows = [None] * N
 
     P0 = build_aggre_pyramid(img[refImage], upsampleRatios)
-
-    for i in range(N):
+    for i in tqdm(range(N)):
         if i == refImage:
             flows[i] = np.zeros((hs, ws, 2))
             continue
@@ -53,7 +52,7 @@ def patch_align(ims, param, imv=None):
         bestMatch = coarse_to_fine_match(P0, P1, patchSizes, searchRadii, upsampleRatios, param)
 
         ### Refine at finest level
-        flows[i] = refine_finest_level(P0[0], P1[0], bestMatch, patchSizes, patchStride, searchRadii[0], param)
+        flows[i] = refine_finest_level(P0[0], P1[0], bestMatch, patchSizes, patchStride, searchRadii[0], param, eng)
 
         # Debug visualization
         if param['debug']:

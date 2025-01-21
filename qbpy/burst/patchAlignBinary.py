@@ -45,7 +45,7 @@ def patch_align_binary(imbs, param):
     refFrame = param['refFrame'] # in matlab indexing
     if alignTWSize * alignTWNum < refFrame:
         raise ValueError('alignTWSize * alignTWNum must be no smaller than refFrame!')
-    refBlock = (refFrame - 1) // alignTWSize +1 # in matlab indexing!
+    refBlock = (refFrame - 1) // alignTWSize + 1  # in matlab indexing!
     param['refImage'] = refBlock
 
     def frame_idx(i, j):

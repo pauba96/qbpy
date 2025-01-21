@@ -1,14 +1,7 @@
 import numpy as np
-import unittest
-import os
-import pickle
-from qbpy.burst.buildAgrePyramid import build_aggre_pyramid
-from qbpy.utils.ps_shape.param_from_json import param_from_json
 from qbpy.burst.blockMatch2d import block_match_2d_multichannel
 from qbpy.utils.lkAlign import lk_align
 from qbpy.burst.patchAlign_subfuns.initializeMatchesFromLevel2 import initialize_matches_from_level2
-from qbpy.burst.patchAlign_subfuns.dc_utils import save_to_mat
-from testing.io import get_eng
 from testing.TestFunctions import test_logger
 
 

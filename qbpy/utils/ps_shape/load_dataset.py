@@ -1,5 +1,7 @@
 import h5py
 import numpy as np
+from scipy.io import loadmat
+from qbpy.utils.ss2_1b_range_read import ss2_1b_range_read
 
 def load_dataset(param):
     h5_info = {}  # Dictionary to store HDF5 file information
@@ -19,7 +21,6 @@ def load_dataset(param):
         data_path = '/photon_cube'  # Path to the dataset within the HDF5 file
         with h5py.File(h5_file_path, 'r') as f:
             data = f[data_path][:]  # Read the dataset
-
             # Reshape the data to match the desired target size and format
             # Determine the number of dimensions
             num_dims = data.ndim
@@ -28,26 +29,36 @@ def load_dataset(param):
             data = np.transpose(data, (2, 0, 1))
             t = data.shape[0]  # Number of time slices
             imbs = [np.pad(data[i], ((0, target_size[0] - data.shape[1]), (0, target_size[1] - data.shape[2])), 'constant') for i in range(t)]
-
             # Attempt to read the dark count rate if available
             try:
                 dcr = f['/dcr'][:]  # Read the DCR if available
             except KeyError:
                 dcr = np.zeros(target_size)  # Fallback if DCR is not present
                 print('Dark count rate not found in HDF5 file. Using default zeros.')
-
             dropped = f['/meta_dropped'][:]  # Read the dropped dataset
-
             if PS:
                 phase_ids = f['/meta_phase_ids'][:]  # Read the phase_ids dataset
             else:
                 phase_ids = False # np.zeros(len(imbs))
-
         # Save relevant HDF5 information to the dictionary
         h5_info['file_path'] = h5_file_path
         h5_info['data_path'] = data_path
 
         print('Finished reading HDF5 data.')
+    elif dataset_type == "mat":
+        im_range = param["range"]
+        imbs = ss2_1b_range_read(data_dir, im_range[0] - 1, im_range[1])
+        # Attempt to read the dark count rate if available
+        try:
+            dcr = np.array(loadmat(dcr_path)['dcr']) # Read the DCR if available
+        except KeyError:
+            dcr = np.zeros(target_size)  # Fallback if DCR is not present
+            print('Dark count rate not found in HDF5 file. Using default zeros.')
+        # other outputs do not apply
+        h5_info = False
+        dropped = np.zeros(len(imbs))
+        phase_ids = False
+
     else:
         raise ValueError(f'Unsupported dataset type: {dataset_type}')
 

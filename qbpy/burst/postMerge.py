@@ -16,7 +16,7 @@ def post_merge(S, param, isSR=False, dcr=None):
 	if param["bm3dSigma"] >0:
 		raise NotImplementedError("BM3D is not implemented in python")
 	else:
-		imd = S;
+		imd = S
 
 	# invert the response curve
 	imr, _ = mle_image(imd, T, param["imgScale"], True)  # Call the function

@@ -69,7 +69,14 @@ if param.debug
     blockRecons = cell(1, alignTWNum);
     for i = 1:alignTWNum
         blockRecons{i} = mleImage(blockAggres{i} * alignTWSize, alignTWSize, imgScale, true);
-        imwrite(blockRecons{i}, fullfile(resultDir, sprintf('blockRecons%d-l%d.png', i, 1)));
+        output_dir = fullfile(resultDir, sprintf('blockRecons%d-l%d.png', i, 1));
+        [folder_path, ~, ~] = fileparts(output_dir);
+        % Create the folder if it does not exist
+        if ~exist(folder_path, 'dir')
+            mkdir(folder_path);
+        end
+        % Save the image
+        imwrite(blockRecons{i}, output_dir);
     end
 else
     blockRecons = {};

@@ -2,7 +2,7 @@
 Work in progress! This is a initial Python implementation of the Quanta Burst Photography (QBP) algorithm, which can be found here: 
 Limitations:
 - Not yet tested: Regular multichannel images (RGB)
-- No support for superresolution and some other QBP-Features
+- No support for superresolution, dcr correction and some other QBP-Features
 
 ## Goal: Full implementation and Torch integration
 ...
@@ -21,6 +21,14 @@ Limitations:
 `python -m pip install matlabengine`
 note: needs admin privileges
 5. Optional: follow the instructions on how to initialize qbp in qbp_matlab/README.md
+
+## Running examples
+Original QBP esxample:
+Download the dataset from the official QBP-Matlab implementation https://github.com/sizhuom/quanta-burst-photography using the provided OneDrive or GoogleDrive Links
+Save dataset to Data/dataset_UW_QBP. There should be a the following folders (among others): 
+/Data/dataset_UW_QBP/0111-dark-100khz-1 and 
+/Data/dataset_UW_QBP/0114-tele-f16-lamp-medium-2
+Run testing/experiments/test_run_qbp_UW_example.py
 
 
 ## For developers

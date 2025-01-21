@@ -63,8 +63,7 @@ class TestPatchAlign(TestFunctions):
 
     def test_load_default(self):
         """Test patch_align with default loaded data."""
-        print("skip")
-        #self.prep_and_run("testing/test_data_inputs/patch_align_inputs.pkl")
+        self.prep_and_run("testing/test_data_inputs/patch_align_inputs.pkl")
 
     def test_load_error(self):
         """Test patch_align with the last error-causing data."""

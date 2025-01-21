@@ -33,7 +33,7 @@ def ss2_1b_range_read(img_dir, start_frame, end_frame):
             imbs[j - start_offset] = output[:, :, j]
 
         # Middle parts
-        for i in range(start_part + 1, end_part): #todo: Test this part
+        for i in range(start_part + 1, end_part):
             part_path = os.path.join(img_dir, f'part_{i}.mat')
             data = loadmat(part_path)
             output = data['OUTPUT']

@@ -38,7 +38,7 @@ refFrame = param.refFrame;
 if alignTWSize * alignTWNum < refFrame
     error('alignTWSize * alignTNNum must be no smaller than refFrame!');
 end
-refBlock = floor((refFrame - 1) / alignTWSize) + 1;
+refBlock = floor(double(refFrame - 1) / double(alignTWSize)) + 1;
 param.refImage = refBlock;
 
 % Get the frame number for block i, frame j (i,j starting from 1)

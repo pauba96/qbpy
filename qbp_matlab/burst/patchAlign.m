@@ -179,7 +179,11 @@ for i = 1:N
             bestScore = Inf;
             for m = 1:size(initMatch, 3)
                 [currMatch, currScore] = blockMatch2d(P0{1}, P1{1}, [ylb xlb], patchSizes(1), searchRadii(1), initMatch(j,k,m,:));
-                if currScore < bestScore
+                if currScore < bestScore*0.9999
+                    % numerical errors are an issue here
+                    if abs(currScore - bestScore) < 0.0001
+                        disp("warning: scores are dangerously close in patchAlign!")
+                    end
                     bestMatch(j,k,:) = currMatch;
                     bestScore = currScore;
                 end

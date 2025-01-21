@@ -71,10 +71,13 @@ def block_match_2d_multichannel(im0, im1, block_ul, block_size, search_radius, i
                 cur_patch = im1[ylb + v:ylb + v + block_size, xlb + u:xlb + u + block_size, :]
 
             # Calculate the score as the sum of absolute differences across all channels
-            cur_score = np.sum(np.abs(cur_patch - ref_patch))
+            cur_score = np.sum(np.abs(cur_patch - ref_patch), dtype=np.float64)
 
             # Update the best match if the current score is better
-            if cur_score < best_score:
+            if cur_score < best_score*0.9999: #some leeway to prevent numerical issues
+                # numerical precision is an issue here with Matlab compatibility, as the behavior for very similar patches oftentimes varies
+                if np.abs(cur_score - best_score) < 0.0001:
+                    print("warning: scores are dangerously close in blockMatch2d!")
                 best_score = cur_score
                 best_match = [u, v]
 

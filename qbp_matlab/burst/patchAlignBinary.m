@@ -76,7 +76,7 @@ else
 end
 
 %% Align
-flows = patchAlign(blockAggres, param, blockRecons);
+flows = dnc_patchAlign(blockAggres, param, blockRecons);
 if param.doRefine
     flowrs = patchAlignRefine(blockAggres, flows, param, blockRecons);
 else

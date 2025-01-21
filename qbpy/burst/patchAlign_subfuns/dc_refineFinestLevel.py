@@ -27,7 +27,7 @@ def refine_finest_level(refImg, tgtImg, bestMatch, patchSizes, patchStride, sear
                 currMatch, currScore = block_match_2d_multichannel(refImg, tgtImg, [ylb +1, xlb+1], # +1 because function expects Matlab indexing
                                                                    patchSizes[0], searchRadius,
                                                                    initMatch[j, k, m, :])
-                if currScore < bestScore:
+                if currScore < bestScore*0.9999:
                     currBest = currMatch
                     bestScore = currScore
 

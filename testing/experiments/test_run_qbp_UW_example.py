@@ -4,6 +4,7 @@ import unittest
 import cv2
 from testing.io import get_eng
 from qbpy.main.run_qbp_verbose import run_qbp_stepwise_verbose #  !! verbose version
+from qbpy.main.run_qbp import run_qbp
 
 
 def save_image(image, filepath):
@@ -60,8 +61,8 @@ class TestQbpPipeline(unittest.TestCase):
 		# Save images for visual comparison
 		basepath = os.path.join(os.path.dirname(__file__), "..", "results/")
 
-		save_image(result["imr"], basepath + "/imr_out_cv2.png")
-		save_image(np.array(result_matlab["imr"]), basepath + "/imr_mat_out_cv2.png")
+		save_image(result["imr"], basepath + "/imr_out_verbose.png")
+		save_image(np.array(result_matlab["imr"]), basepath + "/imr_mat_out_verbose.png")
 
 		# Assertions for equivalence between Python and MATLAB results
 		np.testing.assert_allclose(result["Sr"], result_matlab["Sr"], equal_nan=True, atol=1e-10)
@@ -70,6 +71,19 @@ class TestQbpPipeline(unittest.TestCase):
 		np.testing.assert_allclose(np.array(result["flows"]), result_matlab["flows"], equal_nan=True)
 		np.testing.assert_allclose(np.array(result["flowrs"]), result_matlab["flowrs"], equal_nan=True)
 
+	def test_pipeline_with_UW_examples_no_matlab(self):
+		"""
+		Test pipeline execution with MATLAB engine and compare results.
+		"""
+		filepath = os.path.join(
+			self.base, "Configs", "single_UW_example.json"
+		)
+		# Run Python pipeline with MATLAB engine
+		result = run_qbp(filepath)
+		# Save images for visual comparison
+		basepath = os.path.join(os.path.dirname(__file__), "..", "results/")
+		save_image(np.clip(result["imr"],0,1), basepath + "/imr_out_nomat.png")
+		save_image(np.clip(result["ima"],0,1), basepath + "/ima_out_nomat.png")
 
 if __name__ == "__main__":
 	unittest.main()

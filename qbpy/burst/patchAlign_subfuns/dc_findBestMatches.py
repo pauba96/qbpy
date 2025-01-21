@@ -22,7 +22,7 @@ def find_best_matches(refImg, tgtImg, patchSize, searchRadius, initMatch, param)
                 currMatch, currScore = block_match_2d_multichannel(refImg, tgtImg, [ylb+1, xlb+1],  # +1 because function expects Matlab indexing
                                                                    patchSize, searchRadius,
                                                                    initMatch[j, k, m, :])
-                if currScore < bestScore:
+                if currScore < bestScore*0.9999:
                     currBest = currMatch
                     bestScore = currScore
 

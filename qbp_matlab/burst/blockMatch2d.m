@@ -16,7 +16,7 @@ for v = max(1-ylb,initMatch(2)-searchRadius):min(h-blockSize+1-ylb,initMatch(2)+
         curScore = sum(abs(curPatch-refPatch), 'all');
         if curScore < bestScore*0.9999 %some leeway to prevent numerical issues
                 % numerical errors are an issue here
-                if abs(currScore - bestScore) < 0.0001
+                if abs(curScore - bestScore) < 0.0001
                     disp("warning: scores are dangerously close in patchAlign!")
                 end
             bestScore = curScore;

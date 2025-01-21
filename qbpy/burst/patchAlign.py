@@ -52,7 +52,7 @@ def patch_align(ims, param, imv=None):
         bestMatch = coarse_to_fine_match(P0, P1, patchSizes, searchRadii, upsampleRatios, param)
 
         ### Refine at finest level
-        flows[i] = refine_finest_level(P0[0], P1[0], bestMatch, patchSizes, patchStride, searchRadii[0], param, eng)
+        flows[i] = refine_finest_level(P0[0], P1[0], bestMatch, patchSizes, patchStride, searchRadii[0], param)
 
         # Debug visualization
         if param['debug']:

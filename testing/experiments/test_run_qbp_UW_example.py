@@ -61,8 +61,8 @@ class TestQbpPipeline(unittest.TestCase):
 		# Save images for visual comparison
 		basepath = os.path.join(os.path.dirname(__file__), "..", "results/")
 
-		save_image(result["imr"], basepath + "/imr_out_verbose.png")
-		save_image(np.array(result_matlab["imr"]), basepath + "/imr_mat_out_verbose.png")
+		save_image(np.clip(result["imr"],0,1), basepath + "/imr_out_verbose.png")
+		save_image(np.clip(np.array(result_matlab["imr"]),0,1), basepath + "/imr_mat_out_verbose.png")
 
 		# Assertions for equivalence between Python and MATLAB results
 		np.testing.assert_allclose(result["Sr"], result_matlab["Sr"], equal_nan=True, atol=1e-10)

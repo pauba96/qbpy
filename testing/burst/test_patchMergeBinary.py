@@ -1,8 +1,8 @@
 import unittest
 import numpy as np
 import os
-from qbpy.burst.patchMergeBinary import patch_merge_binary
-from qbpy.burst.patchAlign_subfuns.dc_utils import save_to_mat
+from qbp.burst.patchMergeBinary import patch_merge_binary
+from qbp.burst.patchAlign_subfuns.dc_utils import save_to_mat
 from testing.TestFunctions import TestFunctions
 
 

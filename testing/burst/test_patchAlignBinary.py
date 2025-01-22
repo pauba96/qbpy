@@ -1,6 +1,6 @@
 import numpy as np
 import unittest
-from qbpy.burst.patchAlignBinary import patch_align_binary
+from qbp.burst.patchAlignBinary import patch_align_binary
 from testing.TestFunctions import TestFunctions
 
 

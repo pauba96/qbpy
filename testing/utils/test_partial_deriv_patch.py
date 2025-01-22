@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.ndimage import convolve
-from qbpy.utils.interp2 import interp2
+from qbp.utils.interp2 import interp2
 import unittest
 import os
 from testing.io import get_eng
-from qbpy.utils.partial_deriv_patch import partial_deriv_patch
+from qbp.utils.partial_deriv_patch import partial_deriv_patch
 
 
 class TestPartialDerivPatch(unittest.TestCase):

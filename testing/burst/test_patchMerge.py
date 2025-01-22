@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from testing.TestFunctions import TestFunctions
-from qbpy.burst.patchMerge import patch_merge
+from qbp.burst.patchMerge import patch_merge
 
 
 class TestPatchMergeFunctions(TestFunctions):

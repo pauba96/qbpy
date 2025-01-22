@@ -5,10 +5,10 @@ import os
 import pickle
 import unittest
 
-from qbpy.burst.patchAlign_subfuns.dc_utils import save_to_mat
+from qbp.burst.patchAlign_subfuns.dc_utils import save_to_mat
 from testing.io import get_eng
 
-from qbpy.utils.interp2 import interp2
+from qbp.utils.interp2 import interp2
 
 class TestInterp2Functions(unittest.TestCase):
     def setUp(self):

@@ -3,8 +3,8 @@ import numpy as np
 import unittest
 import cv2
 from testing.io import get_eng
-from qbpy.main.run_qbp_verbose import run_qbp_stepwise_verbose #  !! verbose version
-from qbpy.main.run_qbp import run_qbp
+from qbp.main.run_qbp_verbose import run_qbp_stepwise_verbose #  !! verbose version
+from qbp.main.run_qbp import run_qbp
 
 
 def save_image(image, filepath):

@@ -1,7 +1,7 @@
 import numpy as np
 import unittest
 from testing.TestFunctions import TestFunctions
-from qbpy.burst.buildAgrePyramid import build_aggre_pyramid
+from qbp.burst.buildAgrePyramid import build_aggre_pyramid
 
 class TestBuildAggrePyramid(TestFunctions):
     def input_prep(self, path):

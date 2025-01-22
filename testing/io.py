@@ -14,7 +14,7 @@ def get_eng():
         #eng.addpath(eng.genpath(base + "/qbp_matlab/scripts"), nargout=0)
         #eng.addpath(eng.genpath(base + "/qbp_matlab/utils"), nargout=0)
         #eng.addpath(eng.genpath(base + "/qbp_matlab/single-photon-imaging"), nargout=0)
-        #eng.addpath(eng.genpath(base + "/qbpy"), nargout=0)
+        #eng.addpath(eng.genpath(base + "/qbp"), nargout=0)
     except ImportError:
         eng = None
         print("MATLAB engine not available. MATLAB tests will be skipped.")

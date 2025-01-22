@@ -1,7 +1,7 @@
 import os
 import unittest
 from testing.io import get_eng
-from qbpy.main.run_qbp import run_qbp
+from qbp.main.run_qbp import run_qbp
 
 
 class TestQbpPipeline(unittest.TestCase):

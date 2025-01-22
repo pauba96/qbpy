@@ -1,7 +1,7 @@
 import numpy as np
 import unittest
 from testing.TestFunctions import TestFunctions
-from qbpy.burst.patchAlign import patch_align
+from qbp.burst.patchAlign import patch_align
 
 class TestPatchAlign(TestFunctions):
     def input_prep(self, path):

@@ -1,7 +1,7 @@
 import numpy as np
 import unittest
 from testing.TestFunctions import TestFunctions
-from qbpy.burst.naiveRecons import naive_recons
+from qbp.burst.naiveRecons import naive_recons
 
 class TestNaiveRecons(TestFunctions):
     def input_prep(self, path):

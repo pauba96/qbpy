@@ -1,6 +1,6 @@
 import numpy as np
 import unittest
-from qbpy.burst.blockMatch2d import block_match_2d_multichannel
+from qbp.burst.blockMatch2d import block_match_2d_multichannel
 from testing.TestFunctions import TestFunctions
 
 class TestBlockMatch(TestFunctions):

@@ -38,7 +38,7 @@ octave-workspace
 ## Project specific
 commit.desktop
 
-qbp_matlab/
+my_qbp_matlab/
 .idea/
 
 *.h5

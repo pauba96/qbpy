@@ -1,15 +1,15 @@
-## What is this and why?
-Work in progress! This is a initial Python implementation of the Quanta Burst Photography (QBP) algorithm, which can be found here: 
+## Introduction
+Work in progress! This is a initial Python implementation of the Quanta Burst Photography (QBP) algorithm.
+The goal is to exactly replicate the behavior of the original Matlab implementation, which can be found here: https://github.com/sizhuom/quanta-burst-photography
 Limitations:
 - Not yet tested: Regular multichannel images (RGB)
-- No support for superresolution, dcr correction and some other QBP-Features
-
-## Goal: Full implementation and Torch integration
-...
+- No support for superresolution, dcr correction and some other QBP-Features 
+- Longterm-Goal: Full implementation and Torch integration
 
 ## Notes
-- You can look at the changes made to qbp by looking at this commit: ...
-- Namely, we adjusted the partial_deriv_patch.m function to perform linear interpolation by default, as there is no exact python equivalent to the cubic interpolation used in Matlab. If you want to change this behavior, set the environment variable MATLAB_USE_CUBIC_INTERP to True
+- We made a few changes to the original Matlab code to allow for exactly the same behavior in Python. 
+- We adjusted the partial_deriv_patch.m function to perform linear interpolation by default, as there is no exact python equivalent to the cubic interpolation used in Matlab. If you want to change this behavior, set the environment variable MATLAB_USE_CUBIC_INTERP to True
+- To account for numerical differences between Matlab and Python, we added a small epsilon to the blockMatching function. This is necessary to avoid rounding errors in the patchAlign function. See commit 5a7d301a 
 - We further divided the patchALign function into subfunctions to make testing easier
 
 ## Getting Started
@@ -23,9 +23,9 @@ note: needs admin privileges
 5. Optional: follow the instructions on how to initialize qbp in qbp_matlab/README.md
 
 ## Running examples
-Original QBP esxample:
+Original QBP example:
 Download the dataset from the official QBP-Matlab implementation https://github.com/sizhuom/quanta-burst-photography using the provided OneDrive or GoogleDrive Links
-Save dataset to Data/dataset_UW_QBP. There should be a the following folders (among others): 
+Save dataset to Data/dataset_UW_QBP. There should be the following folders (among others): 
 /Data/dataset_UW_QBP/0111-dark-100khz-1 and 
 /Data/dataset_UW_QBP/0114-tele-f16-lamp-medium-2
 Run testing/experiments/test_run_qbp_UW_example.py
@@ -62,4 +62,21 @@ def my_new_function(input1, input2):
 
 ## Acknowledgements
 
-## License
+Thanks to the original authors of the Matlab implementation and the foundational paper!
+Project page: https://wisionlab.com/project/quanta-burst-photography/
+Please cite the original paper if you use this code:
+```
+@article{ma_quanta_2020,
+    title = “Quanta Burst Photography”,
+    author = “Ma, Sizhuo and Gupta, Shantanu and Ulku, Arin C. and Brushini, Claudio and Charbon, Edoardo and Gupta, Mohit”,
+    journal = “ACM Transactions on Graphics (TOG)”,
+    doi = “10.1145/3386569.3392470”,
+    volume = “39”,
+    number = “4”,
+    year = “2020”,
+    month = “7”
+    publisher = “ACM”
+}
+```
+
+The python implementation was done at MIT Media Lab camera culture group in cooperation with Fraunhofer IOSB. Supported by FIM program.

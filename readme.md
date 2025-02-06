@@ -79,4 +79,4 @@ Please cite the original paper if you use this code:
 }
 ```
 
-The python implementation was done at MIT Media Lab camera culture group in cooperation with Fraunhofer IOSB. Supported by FIM program.
+The python implementation was done at MIT Media Lab camera culture group in cooperation with Fraunhofer IOSB. Supported by Fraunhofer International Mobility program.

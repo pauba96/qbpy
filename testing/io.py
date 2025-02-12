@@ -28,6 +28,8 @@ def save_inputs(func_name, inputs, with_timestamp=False):
     else:
         filename = f"{func_name}_inputs.pkl"
     filepath = os.path.join(os.getenv("QBPY_BASE_DIR"),"testing", "test_data_inputs", filename)
+    # create the directory if it does not exist
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
     # skip, if the file exists
     if os.path.exists(filepath):
         return

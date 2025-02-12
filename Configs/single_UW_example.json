@@ -43,7 +43,7 @@
         "computePSNR": false,
         "debug": false,
         "saveImages": true,
-        "resultDir": "${QBPY_BASE_DIR}/Results/UW_ls",
+        "resultDir": "${QBPY_BASE_DIR}/testing/results/",
         "PS": false,
         "num_ls": 1,
         "image_path": "",

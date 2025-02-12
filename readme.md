@@ -13,9 +13,9 @@ Limitations:
 - We further divided the patchALign function into subfunctions to make testing easier
 
 ## Getting Started
-1. set environment variable: QBPY_BASE_DIR to the directory where the repository is cloned to.
+1. set environment variable: QBPY_BASE_DIR to the qbpy base dir. ...\repo_base\qbpy
 2. `conda create --name qbpy python=3.11`  Make sure your python version matches the matlab python api requirements of your Matlab version. (3.11 for R2024a)
-3. Add QBPY_BASE_DIR to the PYTHONPATH in the activate script of the conda environment: `conda activate qbpy`
+3. Add QBPY_BASE_DIR to the PYTHONPATH (...\repo_base\qbpy)
 4. Optionally: Install Matlab in conda environment: https://www.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html 
 `cd "matlabroot\extern\engines\python"´
 `python -m pip install matlabengine`
@@ -28,7 +28,9 @@ Download the dataset from the official QBP-Matlab implementation https://github.
 Save dataset to Data/dataset_UW_QBP. There should be the following folders (among others): 
 /Data/dataset_UW_QBP/0111-dark-100khz-1 and 
 /Data/dataset_UW_QBP/0114-tele-f16-lamp-medium-2
-Run testing/experiments/test_run_qbp_UW_example.py
+Run `python qbpy/testing/experiments/test_run_qbp_UW_example.py`
+if matlab is installed, both tests should pass, if not, one will be skipped.
+You should find outputs in testing/results/, for instance imr_out_nomat.png for the reconstruction
 
 
 ## For developers

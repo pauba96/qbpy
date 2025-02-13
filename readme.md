@@ -16,10 +16,11 @@ Limitations:
 1. set environment variable: QBPY_BASE_DIR to the qbpy base dir. ...\repo_base\qbp
 2. `conda create --name qbpy python=3.11`  Make sure your python version matches the matlab python api requirements of your Matlab version. (3.11 for R2024a)
 3. Add QBPY_BASE_DIR to the PYTHONPATH (...\repo_base\qbp)
-4. Optionally: Install Matlab in conda environment: https://www.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html 
+4. Optional: Install Matlab in conda environment: https://www.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html 
 `cd "matlabroot\extern\engines\python"´
 `python -m pip install matlabengine`
 note: needs admin privileges
+Also, you will need to install the image processing toolbox in Matlab
 5. Optional: follow the instructions on how to initialize qbp in qbp_matlab/README.md
 
 ## Running examples
